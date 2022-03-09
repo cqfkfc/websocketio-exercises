@@ -1,0 +1,13 @@
+<script>
+  const websocketClient = new WebSocket("ws://localhost:8000");
+  console.log("websocketClient", websocketClient);
+
+  websocketClient.onmessage = (event) => {
+    console.log("message sent from the server:", event.data);
+    websocketClient.send("i am sending data from the client!");
+  };
+
+  websocketClient.onopen = () => {
+    websocketClient.send("i am sending data from the client!");
+  };
+</script>

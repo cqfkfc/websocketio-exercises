@@ -1,0 +1,14 @@
+{
+  "name": "websocket_exercises",
+  "version": "1.0.0",
+  "description": "this repo is created with npm init npm package: ws",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.5.0"
+  }
+}
