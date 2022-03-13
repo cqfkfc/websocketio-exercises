@@ -8,7 +8,7 @@ const expressServer = app.listen(9700);
 const io = socketio(expressServer);
 
 io.on("connection", (socket) => {
-  console.log("connect at server:", socket.id);
+  console.log("connection id at server:", socket.id);
   socket.emit("messageFromServer", {
     data: "This is a message from the socket IO server",
   });
