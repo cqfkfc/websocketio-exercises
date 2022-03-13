@@ -8,3 +8,4 @@ reliability
 # to start
 
 run `nodemon chat-server.js`
+open `chat-client.html` in browser
