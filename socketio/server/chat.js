@@ -16,7 +16,7 @@ io.on("connection", (socket) => {
     console.log("data", data);
     savedChats.push(data.data);
 
-    socket.emit("messageFromServer", {
+    io.emit("messageFromServer", {
       data: "This is a message from the socket IO server",
       savedChats,
     });
