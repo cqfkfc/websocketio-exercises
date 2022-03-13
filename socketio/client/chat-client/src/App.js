@@ -33,11 +33,18 @@ const modalStyle = {
 
 function App() {
   const [openCreateRoomModal, setOpenCreateRoomModal] = useState(false);
-
+  const [currentChat, setCurrentChat] = useState("");
   const [roomName, setRoomName] = useState("");
+  const [chatMesage, setChatMessage] = useState("");
   const handleCreateRoom = () => {
     setOpenCreateRoomModal(true);
   };
+
+  const [savedChats, setSavedChats] = useState([]);
+  socket.on("messageFromServer", (data) => {
+    console.log("data", data);
+    setSavedChats(data.savedChats);
+  });
 
   const [rooms, setRooms] = useState({});
   return (
@@ -56,7 +63,7 @@ function App() {
                   value={roomName}
                   onChange={(event) => setRoomName(event.target.value)}
                   onKeyDown={(event) => {
-                    if (event.key === "Enter") {
+                    if (event.key === "Enter" && roomName) {
                       setRooms({...rooms, [roomName]: []});
                       setRoomName("");
                       setOpenCreateRoomModal(false);
@@ -79,22 +86,34 @@ function App() {
           <Grid container>
             {Object.keys(rooms).map((roomName) => (
               <Grid item xs={12}>
-                <Button>{roomName}</Button>
+                <Button onClick={() => setCurrentChat(roomName)}>
+                  {roomName}
+                </Button>
               </Grid>
             ))}
           </Grid>
         </Drawer>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        {currentChat && (
+          <Card>
+            <CardHeader title={"room for " + currentChat} />
+            <CardContent>
+              {savedChats.map((chat) => (
+                <Typography>{chat}</Typography>
+              ))}
+              <TextField
+                value={chatMesage}
+                onChange={(event) => setChatMessage(event.target.value)}
+              />
+              <Button
+                onClick={() =>
+                  socket.emit("messageToServer", {data: chatMesage})
+                }
+              >
+                Send
+              </Button>
+            </CardContent>
+          </Card>
+        )}
       </header>
     </div>
   );
